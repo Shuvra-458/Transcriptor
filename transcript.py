@@ -1,12 +1,12 @@
-import os
-import json
-import whisper
-import argparse
-from pathlib import Path
-from tqdm import tqdm
+import os #used for processes involving the operating system
+import json #used for json operations on the result
+import whisper #used for Text-to-Speech recognition
+import argparse #used for providing command line inputs to the program
+from pathlib import Path #used for directory traversal and searching files
+from tqdm import tqdm #used to display progress bar indicating the status of the process
 
-def find_media_files(directory, extensions={'.mp3', '.wav', '.mp4', '.mkv', '.flac'}):
-    """Recursively scans a directory for media files with specified extensions."""
+def find_files(directory, extensions={'.mp3', '.wav', '.mp4', '.mkv', '.flac'}):
+    """This function scans a directory and its subdirectories for media files with specified extensions."""
     media_files = []
     for root, _, files in os.walk(directory):
         for file in files:
@@ -14,8 +14,8 @@ def find_media_files(directory, extensions={'.mp3', '.wav', '.mp4', '.mkv', '.fl
                 media_files.append(os.path.join(root, file))
     return media_files
 
-def transcribe_media(file_path, model):
-    """Transcribes the given media file using the Whisper model."""
+def process_files(file_path, model):
+    """This function Processes the given media file using the Whisper model."""
     try:
         result = model.transcribe(file_path)
         return result['text']
@@ -23,8 +23,8 @@ def transcribe_media(file_path, model):
         print(f"Error transcribing {file_path}: {e}")
         return None
 
-def save_transcription(file_path, text, output_dir):
-    """Saves the transcription as a text file and JSON file."""
+def save_result(file_path, text, output_dir):
+    """This function saves the transcription as a text file and JSON file."""
     base_name = Path(file_path).stem
     output_text_path = os.path.join(output_dir, f"{base_name}.txt")
     output_json_path = os.path.join(output_dir, f"{base_name}.json")
@@ -42,13 +42,13 @@ def main(input_folder, output_folder):
     os.makedirs(output_folder, exist_ok=True)
     model = whisper.load_model("tiny")  # Smallest available model
     
-    media_files = find_media_files(input_folder)
+    media_files = find_files(input_folder)
     print(f"Found {len(media_files)} media files.")
     
     for media_file in tqdm(media_files, desc="Processing files"):
-        transcription = transcribe_media(media_file, model)
+        transcription = process_files(media_file, model)
         if transcription:
-            save_transcription(media_file, transcription, output_folder)
+            save_result(media_file, transcription, output_folder)
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
