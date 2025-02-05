@@ -26,16 +26,16 @@ def process_files(file_path, model):
 def save_result(file_path, text, output_dir):
     """This function saves the transcription as a text file and JSON file."""
     base_name = Path(file_path).stem
-    output_text_path = os.path.join(output_dir, f"{base_name}.txt")
-    output_json_path = os.path.join(output_dir, f"{base_name}.json")
+    text_path = os.path.join(output_dir, f"{base_name}.txt")
+    json_path = os.path.join(output_dir, f"{base_name}.json")
     
-    with open(output_text_path, 'w', encoding='utf-8') as txt_file:
+    with open(text_path, 'w', encoding='utf-8') as txt_file:
         txt_file.write(text)
     
-    with open(output_json_path, 'w', encoding='utf-8') as json_file:
+    with open(json_path, 'w', encoding='utf-8') as json_file:
         json.dump({"file": file_path, "transcription": text}, json_file, ensure_ascii=False, indent=4)
     
-    print(f"Saved transcription: {output_text_path} and {output_json_path}")
+    print(f"Saved transcription: {text_path} and {json_path}")
 
 def main(input_folder, output_folder):
     """Main function to process media files in the input folder."""
