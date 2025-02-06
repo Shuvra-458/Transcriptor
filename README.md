@@ -19,8 +19,6 @@ III). Saving the transcriptions in both .txt and .json formats.
 
 - FFmpeg(Multimedia framework used to handle audio, video and image processing. Required for OpenAI's Whisper model)
 
-- tqdm(for the progress bar that indicates the status of the process)
-
 - argparse(for command line arguement)
 
 - json(to save the output in json format)
