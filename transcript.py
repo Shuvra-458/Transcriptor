@@ -3,7 +3,6 @@ import json #used for json operations on the result
 import whisper #used for Text-to-Speech recognition
 import argparse #used for providing command line inputs to the program
 from pathlib import Path #used for directory traversal and searching files
-from tqdm import tqdm #used to display progress bar indicating the status of the process
 
 def find_files(directory, extensions={'.mp3', '.wav', '.mp4', '.mkv', '.flac'}):
     """This function scans a directory and its subdirectories for media files with specified extensions."""
@@ -45,7 +44,8 @@ def main(input_folder, output_folder):
     media_files = find_files(input_folder)
     print(f"Found {len(media_files)} media files.")
     
-    for media_file in tqdm(media_files, desc="Processing files"):
+    for media_file in media_files:
+        print(f"Processing: {media_file}") 
         transcription = process_files(media_file, model)
         if transcription:
             save_result(media_file, transcription, output_folder)
