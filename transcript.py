@@ -52,8 +52,8 @@ def main(input_folder, output_folder):
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("input_folder", type=str, help="Path to the input folder containing media files")
-    parser.add_argument("output_folder", type=str, help="Path to the output folder to save transcriptions")
+    parser.add_argument("input_folder", type=str)
+    parser.add_argument("output_folder", type=str)
     
     args = parser.parse_args()
 
